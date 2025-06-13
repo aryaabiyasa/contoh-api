@@ -1,5 +1,4 @@
 import supabase from '../config/supabaseClient.js';
-import fs from 'fs';
 import path from 'path';
 
 export const getAllMobils = async (req, res) => {
@@ -40,20 +39,19 @@ export const createMobil = async (req, res) => {
     if (!req.file) return res.status(400).json({ success: false, message: "Gambar wajib diunggah" });
     if (!nama || !harga || !userId) return res.status(400).json({ success: false, message: "Semua field wajib diisi" });
 
-    const fileBuffer = fs.readFileSync(req.file.path);
+    const fileName = `${Date.now()}-${req.file.originalname}`;
+
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from('foto-mobil')
-      .upload(req.file.filename, fileBuffer, {
+      .upload(fileName, req.file.buffer, {
         contentType: req.file.mimetype,
       });
 
     if (uploadError) throw uploadError;
 
-    fs.unlinkSync(req.file.path);
-
     const { data: publicUrlData } = supabase.storage
       .from('foto-mobil')
-      .getPublicUrl(req.file.filename);
+      .getPublicUrl(fileName);
 
     const { data: insertData, error: insertError } = await supabase
       .from('mobils')
