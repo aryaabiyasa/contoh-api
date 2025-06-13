@@ -35,6 +35,9 @@ export const createMobil = async (req, res) => {
   try {
     const { nama, harga } = req.body;
     const userId = req.headers.authorization;
+    if (!userId || userId === 'undefined') {
+      return res.status(401).json({ success: false, message: "Akses ditolak. Silakan login." });
+    }
     
     if (!req.file) return res.status(400).json({ success: false, message: "Gambar wajib diunggah" });
     if (!nama || !harga || !userId) return res.status(400).json({ success: false, message: "Semua field wajib diisi" });
@@ -76,12 +79,18 @@ export const createMobil = async (req, res) => {
 
 export const updateMobil = async (req, res) => {
   res.status(501).json({ success: false, message: "Fitur update belum diimplementasikan" });
+  if (!userId || userId === 'undefined') {
+      return res.status(401).json({ success: false, message: "Akses ditolak. Silakan login." });
+    }
 };
 
 export const deleteMobil = async (req, res) => {
   try {
     const mobilId = parseInt(req.params.id, 10);
     const userId = req.headers.authorization;
+    if (!userId || userId === 'undefined') {
+      return res.status(401).json({ success: false, message: "Akses ditolak. Silakan login." });
+    }
 
     const { data: mobil, error: fetchError } = await supabase
       .from('mobils')
