@@ -1,12 +1,9 @@
 {
-  "dependencies": {
-    "express": "^5.1.0",
-    "mysql2": "^3.14.1",
-    "vercel": "^43.1.0"
-  },
-  "name": "mancity-api",
+  "name": "mobil-api",
   "version": "1.0.0",
-  "main": "app.js",
+  "description": "",
+  "type": "module",
+  "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
     "dev": "node src/app.js"
@@ -14,6 +11,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
-  "description": ""
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2"
+  }
 }

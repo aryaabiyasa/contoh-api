@@ -19,7 +19,7 @@ let mobils = [
   }
 ];
 
-module.exports = {
+const mobilModel = {
   getAll: () => mobils,
   getById: (id) => mobils.find(m => m.id === id),
   create: (newMobil) => {
@@ -46,3 +46,5 @@ module.exports = {
     return null;
   }
 };
+
+export default mobilModel;

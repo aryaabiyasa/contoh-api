@@ -1,7 +1,9 @@
 import express from 'express';
-const app = express();
 import bodyParser from 'body-parser';
 import mobilRoutes from './routes/mobilRoutes.js';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -16,4 +18,6 @@ app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Endpoint tidak ditemukan' });
 });
 
-export default app;
+app.listen(PORT, () => {
+  console.log(`Server berjalan di port ${PORT}`);
+});

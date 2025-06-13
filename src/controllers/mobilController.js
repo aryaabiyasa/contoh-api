@@ -1,7 +1,6 @@
+import mobilModel from '../data/mobil.js';
 
-const mobilModel = require('../data/mobil');
-
-const getAllMobils = (req, res) => {
+export const getAllMobils = (req, res) => {
   try {
     const data = mobilModel.getAll();
     res.json({ success: true, data });
@@ -10,7 +9,7 @@ const getAllMobils = (req, res) => {
   }
 };
 
-const getMobilById = (req, res) => {
+export const getMobilById = (req, res) => {
   try {
     const mobil = mobilModel.getById(parseInt(req.params.id));
     if (!mobil) {
@@ -25,16 +24,14 @@ const getMobilById = (req, res) => {
   }
 };
 
-const createMobil = (req, res) => {
+export const createMobil = (req, res) => {
   try {
-    // Validasi diubah dari 'posisi' menjadi 'harga'
     if (!req.body.nama || !req.body.harga) {
       return res.status(400).json({
         success: false,
         message: "Nama dan harga wajib diisi" 
       });
     }
-
     const newMobil = mobilModel.create(req.body);
     res.status(201).json({ success: true, data: newMobil });
   } catch (error) {
@@ -42,51 +39,39 @@ const createMobil = (req, res) => {
   }
 };
 
-const updateMobil = (req, res) => {
+export const updateMobil = (req, res) => {
   try {
     const updatedMobil = mobilModel.update(
       parseInt(req.params.id),
       req.body
     );
-    
     if (!updatedMobil) {
       return res.status(404).json({
         success: false,
-        message: "Mobil tidak ditemukan" 
+        message: "Mobil tidak ditemukan"
       });
     }
-    
     res.json({ success: true, data: updatedMobil });
   } catch (error) {
     res.status(500).json({ success: false, message: "Gagal update mobil" }); 
   }
 };
 
-const deleteMobil = (req, res) => {
+export const deleteMobil = (req, res) => {
   try {
     const deletedMobil = mobilModel.delete(parseInt(req.params.id));
-    
     if (!deletedMobil) {
       return res.status(404).json({
         success: false,
-        message: "Mobil tidak ditemukan" 
+        message: "Mobil tidak ditemukan"
       });
     }
-    
     res.json({ 
       success: true, 
       data: deletedMobil,
-      message: "Mobil berhasil dihapus" 
+      message: "Mobil berhasil dihapus"
     });
   } catch (error) {
     res.status(500).json({ success: false, message: "Gagal menghapus mobil" }); 
   }
-};
-
-module.exports = {
-  getAllMobils,
-  getMobilById,
-  createMobil,
-  updateMobil,
-  deleteMobil
 };
