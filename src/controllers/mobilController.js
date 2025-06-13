@@ -3,7 +3,7 @@ import mobilModel from '../data/mobil.js';
 export const getAllMobils = (req, res) => {
   try {
     const data = mobilModel.getAll();
-    res.json({ success: true, data });
+    res.json(data);
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -26,7 +26,6 @@ export const getMobilById = (req, res) => {
 
 export const createMobil = (req, res) => {
   try {
-    // Ambil userId dari header Authorization
     const userId = req.headers.authorization;
     if (!userId) {
       return res.status(401).json({ success: false, message: "Akses tidak sah (unauthorized)" });
@@ -39,7 +38,6 @@ export const createMobil = (req, res) => {
       });
     }
 
-    // Ambil nama dan harga dari req.body
     const { nama, harga } = req.body;
 
     if (!nama || !harga) {
@@ -53,14 +51,14 @@ export const createMobil = (req, res) => {
       nama: nama,
       harga: parseInt(harga, 10),
       foto: req.file.filename,
-      userId: userId // Simpan userId pemilik
+      userId: userId
     };
 
     const newMobil = mobilModel.create(newMobilData);
     res.status(201).json({ success: true, data: newMobil });
 
   } catch (error) {
-    console.error(error); // Log error untuk debugging
+    console.error(error);
     res.status(500).json({ success: false, message: "Gagal menambah mobil" }); 
   }
 };
@@ -75,7 +73,6 @@ export const updateMobil = (req, res) => {
       return res.status(404).json({ success: false, message: "Mobil tidak ditemukan" });
     }
 
-    // VERIFIKASI KEPEMILIKAN
     if (mobil.userId !== userId) {
       return res.status(403).json({ success: false, message: "Anda tidak punya hak untuk mengubah data ini" });
     }
@@ -97,7 +94,6 @@ export const deleteMobil = (req, res) => {
       return res.status(404).json({ success: false, message: "Mobil tidak ditemukan" });
     }
     
-    // VERIFIKASI KEPEMILIKAN
     if (mobil.userId !== userId) {
         return res.status(403).json({ success: false, message: "Anda tidak punya hak untuk menghapus data ini" });
     }
