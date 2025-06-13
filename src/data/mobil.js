@@ -3,29 +3,27 @@ let mobils = [
     id: 1,
     nama: "Toyota Avanza",
     harga: 250000000,
-    foto: "https://d2ul0w8vif5p52.cloudfront.net/images/toyota/New-Avanza-2021/exterior/toyota-avanza-2022-tampak-depan.webp"
+    foto: "https://d2ul0w8vif5p52.cloudfront.net/images/toyota/New-Avanza-2021/exterior/toyota-avanza-2022-tampak-depan.webp",
+    userId: "user_arya_123"
   },
   {
     id: 2,
     nama: "Honda Brio",
     harga: 167900000,
-    foto: "https://hondapradana.co.id/wp-content/uploads/2023/10/BRIO-SATYA-S-MT.png"
-  },
-  {
-    id: 3,
-    nama: "Mitsubishi Pajero Sport",
-    harga: 600000000,
-    foto: "https://www.mitsubishi-motors.co.id/storage/products/colors/1671523214-pajero-sport-gt-plus-4x2-at-jet-black-mica.png"
+    foto: "https://hondapradana.co.id/wp-content/uploads/2023/10/BRIO-SATYA-S-MT.png",
+    userId: "user_budi_456"
   }
 ];
 
 const mobilModel = {
   getAll: () => mobils,
   getById: (id) => mobils.find(m => m.id === id),
-  create: (newMobil) => {
+
+  
+  create: (dataMobil) => {
     const mobil = {
       id: mobils.length > 0 ? Math.max(...mobils.map(m => m.id)) + 1 : 1,
-      ...newMobil
+      ...dataMobil
     };
     mobils.push(mobil);
     return mobil;
